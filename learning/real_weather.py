@@ -14,12 +14,22 @@ async def getweather():
     async with python_weather.Client(unit=python_weather.IMPERIAL) as client:
         # fetch a weather forecast from a random city listed below
         weather = await client.get(random.choice(american_cities))
+        clear_screen()
 
         # returns the current day's forecast temperature (int)
         print(f"The weather is {weather.temperature}ºF in {weather.location}")
 
         # Get the time of day
         #print(weather.datetime) # Still working on formatting the time
+
+
+def clear_screen():
+    """Clears the console screen."""
+    if 'TERM' not in os.environ:
+        os.environ['TERM'] = 'xterm'
+
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 
 
 american_cities = [
