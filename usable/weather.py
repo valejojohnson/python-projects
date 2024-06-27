@@ -17,11 +17,11 @@ def clear_screen():
 
 
 # Create a description of weather feel based on temp generated
-def get_temperature_description(number):
+def get_temperature_description(temp):
     """Returns a descriptive string based on the temperature value."""
-    if number < 32:
+    if temp < 32:
         return 'freezing'
-    elif number > 95:
+    elif temp > 95:
         return 'scorching'
     else:
         return 'nice'
@@ -30,10 +30,11 @@ def get_temperature_description(number):
 # Pull a random city, generate a random number for temp then print how it
 # feels in random city with random temp.
 def generate_random_number_and_city():
-# Generates and returns a string describing the temperature in a randomly chosen city.
+    # Generates and returns a string describing the temperature in a randomly chosen city.
 
     cities = [
-        "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose",
+        "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia",
+        "San Antonio", "San Diego", "Dallas", "San Jose",
         "London", "Manchester", "Birmingham", "Leeds", "Glasgow",
         "Tokyo", "Osaka", "Nagoya", "Sapporo", "Fukuoka",
         "Paris", "Marseille", "Lyon", "Toulouse", "Nice",
@@ -62,4 +63,4 @@ start_time = time.time()
 while time.time() - start_time < 20:
     clear_screen()  # Clear the screen before printing new output
     print(generate_random_number_and_city())
-    time.sleep(2)  # Pause the execution for 2 seconds
+    time.sleep(3)  # Pause the execution for 2 seconds
