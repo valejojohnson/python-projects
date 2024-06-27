@@ -1,3 +1,7 @@
+# This python is to pull a random city from the list
+# then pull the current temperature in said city
+# then print the output.
+
 import python_weather
 import asyncio
 import os
@@ -12,7 +16,10 @@ async def getweather():
         weather = await client.get(random.choice(cities))
 
         # returns the current day's forecast temperature (int)
-        print("The weather is",weather.temperature,'in',weather.location)
+        print(f"The weather is {weather.temperature}ºF in {weather.location}")
+
+        # Get the time of day
+        #print(weather.datetime) # Still working on formatting the time
 
 
 cities = [
@@ -38,8 +45,6 @@ cities = [
 
 
 if __name__ == '__main__':
-    # see https://stackoverflow.com/questions/45600579/asyncio-event-loop-is-closed-when-getting-loop
-    # for more details
     if os.name == 'nt':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
