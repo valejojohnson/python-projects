@@ -1,4 +1,4 @@
-# This python is to pull a random city from the list
+# This python cdoe is to pull a random city from the list
 # then pull the current temperature in said city
 # then print the output.
 
@@ -29,7 +29,6 @@ def clear_screen():
         os.environ['TERM'] = 'xterm'
 
     os.system('cls' if os.name == 'nt' else 'clear')
-
 
 
 american_cities = [
