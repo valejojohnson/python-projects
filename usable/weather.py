@@ -1,8 +1,13 @@
-import random
-import time
-import os
+# This python code will generate a random city from a list,
+# then generate a random number for the temp then classify
+# based on temp generated how the weather feels
+
+import random  # To get a random temp later
+import time  # Sleep between runs
+import os  # Used to let us clear screen based on OS
 
 
+# Clear screen after every time evolution of code run
 def clear_screen():
     """Clears the console screen."""
     if 'TERM' not in os.environ:
@@ -11,6 +16,7 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+# Create a description of weather feel based on temp generated
 def get_temperature_description(number):
     """Returns a descriptive string based on the temperature value."""
     if number < 32:
@@ -21,6 +27,8 @@ def get_temperature_description(number):
         return 'nice'
 
 
+# Pull a random city, generate a random number for temp then print how it
+# feels in random city with random temp.
 def generate_random_number_and_city():
 # Generates and returns a string describing the temperature in a randomly chosen city.
 
@@ -43,14 +51,13 @@ def generate_random_number_and_city():
         "Toronto", "Montreal", "Vancouver", "Calgary", "Edmonton",
         "Dubai", "Abu Dhabi", "Sharjah", "Al Ain", "Ajman"
     ]
-    number = random.randint(-10, 115)
+    temp = random.randint(-10, 115)
     city = random.choice(cities)
-    temperature_description = get_temperature_description(number)
-    return f"In the city of {city}, it's a {temperature_description} {number}°F"
+    temperature_description = get_temperature_description(temp)
+    return f"In the city of {city}, it's a {temperature_description} {temp}°F"
+
 
 # Run the loop for 20 seconds, clearing the screen and printing new output every 2 seconds
-
-
 start_time = time.time()
 while time.time() - start_time < 20:
     clear_screen()  # Clear the screen before printing new output
