@@ -20,7 +20,7 @@ async def getweather():
         print(f"The weather is {weather.temperature}ºF in {weather.location}")
 
         # Get the time of day
-        #print(weather.datetime) # Still working on formatting the time
+        # print(weather.datetime) # Still working on formatting the time
 
 
 def clear_screen():
