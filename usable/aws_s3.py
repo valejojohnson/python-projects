@@ -5,8 +5,13 @@
 import time
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError, ClientError
+from colorama import Fore, Style, init
+
+# Constant Variables
+init(autoreset=True) # This is to constantly reset the color after every run
+
 s3 = boto3.client('s3')
-response = ''
+response = True
 
 def check_s3_bucket(bucket):
     try:
@@ -47,24 +52,40 @@ def delete_s3_bucket(bucket):
 
 
 def list_s3_buckets():
-    s3 = boto3.client('s3')
-    response = s3.list_buckets()
+    listing = s3.list_buckets()
 
-    bucket_names = [bucket['Name'] for bucket in response['Buckets']]
+    bucket_names = [bucket['Name'] for bucket in listing['Buckets']]
     for name in bucket_names:
         print()
         print(name)
 
 
+def check_credentials(bucket):
+    try:
+        s3.list_buckets()
+        print(Fore.GREEN + "AWS credentials valid. Moving on")
+        print()
+        check_s3_bucket(bucket)
+    except NoCredentialsError:
+        print()
+        print("No credentials were found")
+    except ClientError as e:
+        error_code = e.response['Error']['Code']
+        if error_code == 'AccessDenied':
+            print(f"Access is denied. Check credentials")
+        else:
+            print(f"An error occurred: {e}")
+
+
 while response != False:
     response = input("Would you like to create a new bucket (Y/N) ")
-    if response == 'Y'.casefold():
+    if response == 'y'.lower() or response == 'Y':
         print()
         bucket = input('Name the bucket to create?: ')
-        check_s3_bucket(bucket)
+        check_credentials(bucket)
     else:
         print()
-        print('Exiting Program.')
+        print(Fore.RED + 'Exiting Program.')
         response = False
 
 
