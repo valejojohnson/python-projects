@@ -1,12 +1,12 @@
 # This python code is designed to take input from user on a bucket
-# name to create. If bucket already exists, ask they'd like to keep it.
-# Else, it will create the bucket.
+# name to create. If bucket already exists, ask they'd like to delete it.
+# Else, it will create the bucket and give feedback that it's been created.
 
 import time
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError, ClientError
 s3 = boto3.client('s3')
-
+response = ''
 
 def check_s3_bucket(bucket):
     try:
@@ -14,8 +14,8 @@ def check_s3_bucket(bucket):
         print()
         print(f"S3 Bucket already exists: {bucket}")
         print()
-        answer = input(f'Would you like to delete {bucket}? (Y/N)')
-        if answer == 'Y':
+        answer = input(f'Would you like to delete {bucket}? (Y/N) ')
+        if answer == 'Y'.casefold():
             delete_s3_bucket(bucket)
 
     except ClientError as e:
@@ -40,7 +40,8 @@ def delete_s3_bucket(bucket):
     try:
         s3.delete_bucket(Bucket=bucket)
         print()
-        print(f"Bucket {bucket} has been destroyed.")
+        print(f"S3 Bucket has been destroyed: {bucket} ")
+        print()
     except ClientError as e:
         print(f"There was a problem deleting {bucket}: {e}")
 
@@ -55,5 +56,15 @@ def list_s3_buckets():
         print(name)
 
 
-bucket = input('Which bucket would you like to create?: ')
-check_s3_bucket(bucket)
+while response != False:
+    response = input("Would you like to create a new bucket (Y/N) ")
+    if response == 'Y'.casefold():
+        print()
+        bucket = input('Name the bucket to create?: ')
+        check_s3_bucket(bucket)
+    else:
+        print()
+        print('Exiting Program.')
+        response = False
+
+
