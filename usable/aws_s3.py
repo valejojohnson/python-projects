@@ -24,7 +24,7 @@ def check_s3_bucket(bucket):
     except ClientError as e:
         if e.response['Error']['Code'] == '404':
 
-            print(Fore.RED + f"The bucket {bucket} DOESN'T exist.")
+            print(Fore.YELLOW + f"The bucket {bucket} DOESN'T exist.")
             print()
             create_s3_bucket(bucket)
         else:
@@ -40,7 +40,7 @@ def create_s3_bucket(bucket):
         if question == 'Y':
             list_s3_buckets()
     except ClientError as e:
-        print(f'There was an error creating the bucket: {e}')
+        print(Fore.RED + f'There was an error creating the bucket: {e}')
 
 
 def delete_s3_bucket(bucket):
@@ -50,7 +50,7 @@ def delete_s3_bucket(bucket):
         print(f"S3 Bucket has been destroyed: {bucket} ")
         print()
     except ClientError as e:
-        print(f"There was a problem destroying {bucket}: {e}")
+        print(Fore.RED + f"There was a problem destroying {bucket}: {e}")
 
 
 def list_s3_buckets():
@@ -62,7 +62,7 @@ def list_s3_buckets():
         for name in bucket_names:
             print(name)
     except ClientError as e:
-        print(f"Error listing buckets: {e}")
+        print(Fore.RED + f"Error listing buckets: {e}")
 
 
 def check_credentials(bucket):
@@ -73,13 +73,13 @@ def check_credentials(bucket):
         check_s3_bucket(bucket)
     except NoCredentialsError:
         print()
-        print("No credentials were found")
+        print(Fore.RED + "No credentials were found")
     except ClientError as e:
         error_code = e.response['Error']['Code']
         if error_code == 'AccessDenied':
-            print(f"Access is denied. Check your credentials")
+            print(Fore.RED + "Access is denied. Check your credentials")
         else:
-            print(f"An error occurred: {e}")
+            print(Fore.RED + f"An error occurred: {e}")
 
 
 def main():
