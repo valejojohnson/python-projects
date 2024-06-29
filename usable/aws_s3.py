@@ -2,9 +2,8 @@
 # name to create. If bucket already exists, ask they'd like to delete it.
 # Else, it will create the bucket and give feedback that it's been created.
 
-import time
 import boto3
-from botocore.exceptions import NoCredentialsError, PartialCredentialsError, ClientError
+from botocore.exceptions import NoCredentialsError, ClientError
 from colorama import Fore, Style, init
 
 # Constant Variables
@@ -25,9 +24,9 @@ def check_s3_bucket(bucket):
 
     except ClientError as e:
         if e.response['Error']['Code'] == '404':
-            print(f"The bucket {bucket} DOESN'T already exist")
+
+            print(Fore.RED + f"The bucket {bucket} DOESN'T already exist")
             print()
-            print(f'creating bucket {bucket}..')
             create_s3_bucket(bucket)
         else:
             raise
@@ -35,8 +34,10 @@ def check_s3_bucket(bucket):
 
 def create_s3_bucket(bucket):
     try:
+        print()
+        print(f'Creating bucket {bucket}...')
         s3.create_bucket(Bucket=bucket)
-        print(f'Bucket {bucket} successfully created')
+        print(Fore.GREEN + f'Bucket {bucket} successfully created')
         question = input('Would you like to list all buckets? (Y/N)')
         if question == 'Y'.casefold():
             list_s3_buckets()
@@ -80,7 +81,7 @@ def check_credentials(bucket):
             print(f"An error occurred: {e}")
 
 
-while response != False:
+while response is not False:
     print()
     response = input("Would you like to create a new bucket (Y/N) ")
     if response == 'y'.lower() or response == 'Y':
@@ -91,5 +92,3 @@ while response != False:
         print()
         print(Fore.RED + 'Exiting Program.')
         response = False
-
-
