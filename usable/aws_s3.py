@@ -90,7 +90,7 @@ def main():
         response = input("Would you like to create a new bucket (Y/N) ").strip().lower()
         if response == 'y':
             print()
-            bucket = input('Name the bucket to create?: ').strip()
+            bucket = input('Name the bucket to check/create?: ').strip().lower()
             check_credentials(bucket)
         elif response == 'n':
             print(Fore.RED + 'Exiting Program')
