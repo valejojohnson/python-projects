@@ -33,7 +33,7 @@ def check_s3_bucket(bucket):
 
 def create_s3_bucket(bucket):
     try:
-        print(f'Creating bucket {bucket}...')
+        print(f'Creating bucket: {bucket}')
         s3.create_bucket(Bucket=bucket)
         print(Fore.GREEN + f'Bucket {bucket} successfully created')
         question = input('Would you like to list all buckets? (Y/N)').strip().lower()
