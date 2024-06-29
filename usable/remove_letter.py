@@ -1,5 +1,5 @@
 # This code is to work on removing a letter from a
-# sentence and recreating the sentence without that
+# sentence and recreate the sentence without that
 # letter.
 
 
