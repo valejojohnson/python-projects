@@ -8,16 +8,16 @@ from botocore.exceptions import NoCredentialsError, PartialCredentialsError, Cli
 from colorama import Fore, Style, init
 
 # Constant Variables
-init(autoreset=True) # This is to constantly reset the color after every run
+init(autoreset=True)  # This is to constantly reset the color after every run
+s3 = boto3.client('s3')  # Don't feel like typing out boto.client('s3') everytime
+response = True  # This is to run the program until it's False
 
-s3 = boto3.client('s3')
-response = True
 
 def check_s3_bucket(bucket):
     try:
         s3.head_bucket(Bucket=bucket)
         print()
-        print(f"S3 Bucket already exists: {bucket}")
+        print(Fore.YELLOW + f"S3 Bucket already exists: {bucket}")
         print()
         answer = input(f'Would you like to delete {bucket}? (Y/N) ')
         if answer == 'Y'.casefold():
@@ -37,6 +37,9 @@ def create_s3_bucket(bucket):
     try:
         s3.create_bucket(Bucket=bucket)
         print(f'Bucket {bucket} successfully created')
+        question = input('Would you like to list all buckets? (Y/N)')
+        if question == 'Y'.casefold():
+            list_s3_buckets()
     except ClientError as e:
         print(f'There was an error creating the bucket: {e}')
 
@@ -78,6 +81,7 @@ def check_credentials(bucket):
 
 
 while response != False:
+    print()
     response = input("Would you like to create a new bucket (Y/N) ")
     if response == 'y'.lower() or response == 'Y':
         print()
