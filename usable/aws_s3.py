@@ -37,7 +37,7 @@ def create_s3_bucket(bucket):
         s3.create_bucket(Bucket=bucket)
         print(Fore.GREEN + f'Bucket {bucket} successfully created')
         question = input('Would you like to list all buckets? (Y/N)').strip().lower()
-        if question == 'Y':
+        if question == 'y':
             list_s3_buckets()
     except ClientError as e:
         print(Fore.RED + f'There was an error creating the bucket: {e}')
