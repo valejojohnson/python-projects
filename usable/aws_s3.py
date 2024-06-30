@@ -83,18 +83,16 @@ def check_credentials(bucket):
 
 
 def main():
-    response = True  # This is to run the program until it returns False
-
-    while response:
+    while True:
         print()
-        response = input("Would you like to create a new bucket (Y/N) ").strip().lower()
+        response = input("Would you like to check/create a new bucket (Y/N) ").strip().lower()
         if response == 'y':
             print()
             bucket = input('Name the bucket to check/create?: ').strip().lower()
             check_credentials(bucket)
         elif response == 'n':
             print(Fore.RED + 'Exiting Program')
-            response = False
+            return False
         else:
             print()
             print(Fore.YELLOW + "Invalid input. Please enter 'Y' or 'N'. ")
