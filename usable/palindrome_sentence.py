@@ -28,6 +28,6 @@ is_palindrome(sentence)
 
 
 # Sentences to test
-# Do Geese See God?
-# Was it a car or a cat I saw?
-# Mr. Owl ate my metal worm
+# sentence = 'Do Geese See God?'
+# sentence = 'Was it a car or a cat I saw?'
+# sentence = 'Mr. Owl ate my metal worm'
