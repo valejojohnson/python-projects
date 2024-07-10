@@ -6,7 +6,7 @@ import random
 import time
 
 # Generate a random answer then print for us to see
-answer = random.randint(1,5)
+answer = random.randint(1, 5)
 print(f'The correct answer is: {answer}')
 print()
 
@@ -15,7 +15,7 @@ tries = 1
 
 # Let the computer guess 10 times then exit
 while tries < 10:
-    computer_guess = random.randint(1,5)
+    computer_guess = random.randint(1, 5)
 
     # If the guess doesn't match the answer print the guess then try again
     # and add a number to tries then wait 1 seconds
