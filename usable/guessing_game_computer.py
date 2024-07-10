@@ -18,13 +18,13 @@ while tries < 10:
     computer_guess = random.randint(1,5)
 
     # If the guess doesn't match the answer print the guess then try again
-    # and add a number to tries then wait 2 seconds
+    # and add a number to tries then wait 1 seconds
     if computer_guess != answer:
         print(f"No match with {computer_guess}, trying again")
         tries += 1
         time.sleep(1)
 
-    # If the guess DOES equal the answer let us know the answer and how many
+    # If the guess DOES equal answer let us know how many
     # tries it took, then break out of the loop
     elif computer_guess == answer:
         print()
