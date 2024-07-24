@@ -7,13 +7,13 @@ def get_input(prompt):
 
 
 def main():
-    first_name = get_input("What's your first name? ")
+    first_name = get_input("What's your first name? \n")
     print()
 
-    last_name = get_input(f"Hi {first_name}, what's your last name? ")
+    last_name = get_input(f"Hi {first_name}, what's your last name? \n")
     print()
 
-    alias = get_input("Do you have a nickname you like to be called? ")
+    alias = get_input("Do you have a nickname you like to be called? \n")
     print()
 
     if not alias:
