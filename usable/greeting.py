@@ -18,7 +18,7 @@ def get_time():
 
 def main():
     # Ask for users first name
-    name = input("What's your first name? ").strip()
+    name = input("What's your first name? \n").strip()
 
     # Call the get_time function to get proper salutation
     salutation = get_time()

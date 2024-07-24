@@ -7,7 +7,7 @@ import time
 
 # Generate a random answer then print for us to see
 answer = random.randint(1, 5)
-print(f'The correct answer is: {answer}')
+print(f'Answer = {answer}')
 print()
 
 # Initialize the tries starting from 1
@@ -28,7 +28,7 @@ while tries < 10:
     # tries it took, then break out of the loop
     elif computer_guess == answer:
         print()
-        print(f"We MATCHED at {computer_guess} after {tries} tries")
+        print(f"We MATCHED at {computer_guess} after {tries} tries!")
         break
 
 # If there are no matches after 10 tries just let us know

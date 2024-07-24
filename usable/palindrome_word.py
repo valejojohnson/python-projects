@@ -19,7 +19,7 @@ def is_palindrome(text):
 
 
 # Get input from user for a word to test
-text = str(input("What's a word you'd like to test? "))
+text = str(input("What's a word you'd like to test? \n"))
 
 # Call the function with the text from user
 is_palindrome(text)
