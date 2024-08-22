@@ -41,7 +41,7 @@ def main():
             c_to_f(temp)
 
         again = str(input("Do you want to enter another? ('yes' to continue, any other key to exit)\n")).lower()
-        if again != 'yes' or again != 'y':
+        if not again in ['y', 'yes']:
             print("Exiting Program. Goodbye")
             break
 
