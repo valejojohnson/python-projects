@@ -13,10 +13,10 @@ def main():
     last_name = get_input(f"Hi {first_name}, what's your last name? \n")
     print()
 
-    alias = get_input("Do you have a nickname you like to be called? \n")
+    alias = get_input("Do you have a nickname you like to be called? (Press Enter to Skip) \n")
     print()
 
-    if not alias:
+    if not alias or alias == 'no'.casefold():
         print(f"Hi {first_name} {last_name}. We're happy to have you here")
     else:
         print(f"Hi {alias} {last_name}. We're happy to have you here")
