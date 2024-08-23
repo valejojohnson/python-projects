@@ -1,3 +1,5 @@
+# Write a date program that displays today's day as "Today" then the rest of the week 7 days out
+
 from datetime import date, timedelta
 
 
