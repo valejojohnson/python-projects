@@ -27,7 +27,7 @@ def is_today(day, today):
 def print_week(today):
     day = today.weekday()
 
-    for i in range(10):
+    for i in range(7):
         current_day = (day + i) % 7
         if is_today(current_day, day):
             print("Today")
