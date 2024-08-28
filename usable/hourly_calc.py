@@ -19,7 +19,7 @@ def rates(perhour):
 
 def main():
     while True:
-        perhour = int(input("How much is the hourly rate?\n"))
+        perhour = int(input("How much is the hourly rate? (Enter numbers only) \n"))
         rates(perhour)
         print()
         cont = str(input("Do you want to enter another rate? ('Y' to continue, any other key to exit)\n")).casefold()
