@@ -1,3 +1,5 @@
+# Create a calculator here in python
+
 def multiply(a, b):
     result = a * b
     return result
@@ -38,22 +40,3 @@ elif to_do == 'multiply' or to_do == '*':
     print(f'These numbers multiplied = {answer}')
 else:
     print('Please enter something to do with the numbers (Ex. add +, subtract -, divide /, multiply *) ')
-
-
-
-# add_answer = add(a, b)
-# print('')
-# print(f"These numbers added = {add_answer} ")
-#
-# multiply_answer = multiply(a, b)
-# print('')
-# print(f"These numbers multiplied = {multiply_answer} ")
-#
-# subtract_answer = subtract(a, b)
-# print('')
-# print(f"These numbers subtracted = {subtract_answer} ")
-#
-# divide_answer = divide(a, b)
-# print('')
-# print(f"These numbers divided = {divide_answer} ")
-# print('')
