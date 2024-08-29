@@ -19,9 +19,14 @@ def rates(perhour):
 
 def main():
     while True:
-        perhour = int(input("How much is the hourly rate? (Enter numbers only) \n"))
-        rates(perhour)
+        perhour = input("How much is the hourly rate? (Enter numbers only) \n")
+        if perhour.isnumeric():
+            rates(int(perhour))
+        else:
+            rates(float(perhour))
+
         print()
+
         cont = str(input("Do you want to enter another rate? ('Y' to continue, any other key to exit)\n")).casefold()
         if cont != "y":
             print("Exiting Program. Goodbye")
