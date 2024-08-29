@@ -8,7 +8,7 @@ def rates(perhour):
     monthly = biweekly * 2
     annually = monthly * 12
     print()
-    print(f"The rates based on ${amount} per-hour\n"
+    print(f"The rates based on ${amount}/hr\n"
           f"Daily: ${day}\n"
           f"Weekly: ${week}\n"
           f"BiWeekly: ${biweekly}\n"
