@@ -13,6 +13,9 @@ COLOR_RESET = "\033[0m"
 cpu_results_summary = []
 memory_results_summary = []
 
+# --- Global variable for CPU ramp-up test scale ---
+cpu_ramp_scale = 100000  # This value will be dynamically updated during the ramp test
+
 # -------------------------------
 # CPU Workload Simulations (per app)
 # -------------------------------
@@ -50,6 +53,17 @@ def cpu_davinci_export(_):
 # --- Multiprocessing-safe helper function ---
 def execute_task(task_func):
     return task_func(0)
+
+# -------------------------------
+# CPU Ramp-Up Task (Top-Level, Not Nested)
+# -------------------------------
+
+def cpu_ramp_task(_):
+    global cpu_ramp_scale
+    result = 0.0
+    for i in range(1, cpu_ramp_scale):
+        result += math.sqrt(i) * math.log(i + 1)
+    return result
 
 # -------------------------------
 # Run All CPU Workload Benchmarks
@@ -164,6 +178,48 @@ def memory_test(size_gb=4, workload_name="General Workload"):
         print(f"📝 Interpretation for {workload_name}: {comment}\n")
 
 # -------------------------------
+# CPU Ramp-Up Test (Using Top-Level Function)
+# -------------------------------
+
+def run_cpu_ramp_test():
+    global cpu_ramp_scale
+    print("\n=== CPU RAMP-UP STRESS TEST ===")
+    cpu_count = multiprocessing.cpu_count()
+
+    for scale in [10**5, 2 * 10**5, 4 * 10**5, 8 * 10**5, 10**6]:
+        cpu_ramp_scale = scale
+        print(f"\nRunning ramp-up CPU test with loop scale: {scale:,}")
+        start = time.time()
+
+        with multiprocessing.Pool(cpu_count) as pool:
+            results = pool.map(cpu_ramp_task, range(cpu_count))
+
+        end = time.time()
+        duration = end - start
+        print(f"Ramp scale {scale:,} completed in {duration:.2f} seconds.")
+
+# -------------------------------
+# Memory Ramp-Up Test
+# -------------------------------
+
+def run_memory_ramp_test():
+    print("\n=== MEMORY RAMP-UP STRESS TEST ===")
+    for size_gb in [4, 8, 12, 16, 20, 24, 28]:
+        print(f"\nAllocating ~{size_gb}GB of memory...")
+        try:
+            size = int((size_gb * 1024**3) / 8)
+            start = time.time()
+            arr = np.ones(size, dtype=np.float64)
+            arr *= 2.5
+            sum_result = np.sum(arr)
+            end = time.time()
+            duration = end - start
+            print(f"Ramp memory test {size_gb}GB completed in {duration:.2f} seconds. Sum: {sum_result:.2e}")
+        except MemoryError:
+            print(f"MemoryError: Allocation failed at {size_gb}GB. System limit reached.")
+            break
+
+# -------------------------------
 # Final System Summary
 # -------------------------------
 
@@ -186,9 +242,9 @@ def summarize_system_performance():
         print(f"{COLOR_GREEN}✅ Your system shows no major limitations. It's highly optimized for professional workloads, creative tasks, and multitasking.{COLOR_RESET}\n")
     else:
         print(f"{COLOR_YELLOW}⚠️ Summary Insights:{COLOR_RESET}")
-        if any(r["rating"] == "Moderate" and r["app"] in [c["app"] for c in cpu_results_summary] for r in cpu_results_summary):
+        if any(r["rating"] == "Moderate" for r in cpu_results_summary):
             print("- CPU performance may limit you in high-end rendering, compiling, or export tasks.")
-        if any(r["rating"] == "Moderate" and r["app"] in [m["app"] for m in memory_results_summary] for r in memory_results_summary):
+        if any(r["rating"] == "Moderate" for r in memory_results_summary):
             print("- Memory speed or capacity may bottleneck heavy media editing or multitasking workflows.")
         print(f"{COLOR_YELLOW}\n🎯 Recommendation: Monitor actual resource usage during work. If you notice slowness, consider a memory upgrade or faster CPU cores in future systems.{COLOR_RESET}")
 
@@ -202,4 +258,6 @@ if __name__ == "__main__":
     print("Starting Automatic Memory Workload Benchmarks...\n")
     run_all_memory_benchmarks()
     summarize_system_performance()
+    run_cpu_ramp_test()
+    run_memory_ramp_test()
     print("\nAll benchmarks completed.")
