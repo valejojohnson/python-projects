@@ -9,6 +9,10 @@ COLOR_YELLOW = "\033[93m"
 COLOR_RED = "\033[91m"
 COLOR_RESET = "\033[0m"
 
+# --- Summary Containers ---
+cpu_results_summary = []
+memory_results_summary = []
+
 # -------------------------------
 # CPU Workload Simulations (per app)
 # -------------------------------
@@ -43,7 +47,7 @@ def cpu_davinci_export(_):
         result += i * (i % 256)
     return result
 
-# Helper for multiprocessing
+# --- Multiprocessing-safe helper function ---
 def execute_task(task_func):
     return task_func(0)
 
@@ -77,13 +81,22 @@ def run_cpu_task(task_function, app_name):
     print(f"{app_name} CPU Workload Completed in {duration:.2f} seconds.")
     print(f"=== CPU BENCHMARK END: {app_name} ===")
 
-    # Interpretation with color
     if duration < 15:
+        rating = "Excellent"
         comment = f"{COLOR_GREEN}Excellent – ideal for professional and creative workloads.{COLOR_RESET}"
     elif duration < 25:
+        rating = "Good"
         comment = f"{COLOR_YELLOW}Good – great for most content creation and development tasks.{COLOR_RESET}"
     else:
+        rating = "Moderate"
         comment = f"{COLOR_RED}Moderate – sufficient for general productivity but not optimal for heavy workflows.{COLOR_RESET}"
+
+    cpu_results_summary.append({
+        "app": app_name,
+        "duration": duration,
+        "comment": comment,
+        "rating": rating
+    })
 
     print(f"📝 Interpretation for {app_name}: {comment}\n")
 
@@ -113,7 +126,7 @@ def memory_test(size_gb=4, workload_name="General Workload"):
     print(f"Running Memory Benchmark simulating: **{workload_name}**")
     print(f"Allocating ~{size_gb}GB of memory...\n")
 
-    size = int((size_gb * 1024**3) / 8)  # Number of float64 elements
+    size = int((size_gb * 1024**3) / 8)
     start = time.time()
 
     try:
@@ -132,13 +145,52 @@ def memory_test(size_gb=4, workload_name="General Workload"):
 
     if duration:
         if duration < 10:
+            rating = "Excellent"
             comment = f"{COLOR_GREEN}Excellent memory speed – great for large media projects, 3D rendering, and multitasking.{COLOR_RESET}"
         elif duration < 20:
+            rating = "Good"
             comment = f"{COLOR_YELLOW}Good memory speed – suitable for video editing and dev workflows.{COLOR_RESET}"
         else:
+            rating = "Moderate"
             comment = f"{COLOR_RED}Moderate memory performance – fine for general tasks and light creative work.{COLOR_RESET}"
 
+        memory_results_summary.append({
+            "app": workload_name,
+            "duration": duration,
+            "comment": comment,
+            "rating": rating
+        })
+
         print(f"📝 Interpretation for {workload_name}: {comment}\n")
+
+# -------------------------------
+# Final System Summary
+# -------------------------------
+
+def summarize_system_performance():
+    print("\n" + "="*50)
+    print("📊 FINAL SYSTEM PERFORMANCE SUMMARY")
+    print("="*50)
+
+    all_ratings = [r["rating"] for r in cpu_results_summary + memory_results_summary]
+
+    excellent = all_ratings.count("Excellent")
+    good = all_ratings.count("Good")
+    moderate = all_ratings.count("Moderate")
+
+    print(f"\n🧠 {COLOR_GREEN}Excellent Ratings: {excellent}{COLOR_RESET}")
+    print(f"💡 {COLOR_YELLOW}Good Ratings: {good}{COLOR_RESET}")
+    print(f"⚠️  {COLOR_RED}Moderate Ratings: {moderate}{COLOR_RESET}\n")
+
+    if moderate == 0:
+        print(f"{COLOR_GREEN}✅ Your system shows no major limitations. It's highly optimized for professional workloads, creative tasks, and multitasking.{COLOR_RESET}\n")
+    else:
+        print(f"{COLOR_YELLOW}⚠️ Summary Insights:{COLOR_RESET}")
+        if any(r["rating"] == "Moderate" and r["app"] in [c["app"] for c in cpu_results_summary] for r in cpu_results_summary):
+            print("- CPU performance may limit you in high-end rendering, compiling, or export tasks.")
+        if any(r["rating"] == "Moderate" and r["app"] in [m["app"] for m in memory_results_summary] for r in memory_results_summary):
+            print("- Memory speed or capacity may bottleneck heavy media editing or multitasking workflows.")
+        print(f"{COLOR_YELLOW}\n🎯 Recommendation: Monitor actual resource usage during work. If you notice slowness, consider a memory upgrade or faster CPU cores in future systems.{COLOR_RESET}")
 
 # -------------------------------
 # Main Entry Point
@@ -146,12 +198,8 @@ def memory_test(size_gb=4, workload_name="General Workload"):
 
 if __name__ == "__main__":
     print("System Benchmark Starting...\n")
-
-    # Run All CPU Workload Benchmarks
     run_all_cpu_benchmarks()
-
-    # Run All Memory Workload Benchmarks
     print("Starting Automatic Memory Workload Benchmarks...\n")
     run_all_memory_benchmarks()
-
+    summarize_system_performance()
     print("\nAll benchmarks completed.")
